@@ -15,9 +15,3 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
-
-# Visual Studio Code
-.vscode
-
-# IntelliJ IDEA
-.idea
