@@ -15,7 +15,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build (test and package):
+  build-ie_test_and_package:
 
     runs-on: ubuntu-latest
 
