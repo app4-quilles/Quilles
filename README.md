@@ -1,23 +1,26 @@
 # Quilles
-Bowling points counter.
-This software calculates the score of a bowling game by letting the players enter how many pins they hit at each round.
+Bowling points counter
 ## *Groupe :* Hu Alexis, Schmidt Charly, Bulteau Arnaud, Le Bot Maxime, Proquez Olivier
 
-## Technologies utilisées
+## Used technologies
 - Java
-- JavaFrame
 - Maven
+- JavaFrame
 
 ## Tests
-- tests unitaires
-- feedback visuel
+- unit tests
+- manual tests via visual feedback
+  We use JUnit to perform unit tests on our methods.
 
-## Intégration Continue
-- git hub
+## Continuous integration
+- GitHub
 
-## Compétences
-- Alexis Maven
-- Maxime Jframe
-- Charly GitHub
-- Olivier Java
-- Arnaud Scrum
+## Skills
+- Alexis : Maven
+- Maxime : Jframe
+- Charly : GitHub, Scrum
+- Olivier : Object Oriented Programming
+- Arnaud : Java
+
+## License
+MIT license
