@@ -2,21 +2,25 @@
 Bowling points counter
 ## *Groupe :* Hu Alexis, Schmidt Charly, Bulteau Arnaud, Le Bot Maxime, Proquez Olivier
 
-## Technologies utilisées
+## Used technologies
 - Java
-- JavaFrame
 - Maven
+- JavaFrame
 
 ## Tests
-- tests unitaires
-- feedback visuel
+- unit tests
+- manual tests via visual feedback
+We use JUnit to perform unit tests on our methods.
 
-## Intégration Continue
-- git hub
+## Continuous integration
+- GitHub
 
-## Compétences
+## Skills
 - Alexis Maven
 - Maxime Jframe
 - Charly gihub
 - Olivier Java
 - Arnaud Scrum
+
+## License
+MIT license
