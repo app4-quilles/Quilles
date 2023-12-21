@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import org.app4_quilles.junit.JUnitExtras;
 import org.junit.Test;
 
 public class MainTest {
