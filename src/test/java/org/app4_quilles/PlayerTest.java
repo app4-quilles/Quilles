@@ -28,5 +28,7 @@ public class PlayerTest {
 
         p.getPoints()[9][1] = 43;
 
+
+        System.err.println(p.toString());
     }
 }
