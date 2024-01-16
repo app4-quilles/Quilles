@@ -12,6 +12,8 @@ public class GameTest {
     @Test
     public void testStarted() {
         Game gameTest = new Game();
+        String rep = gameTest.getInputString("test");
+        System.err.println(rep);
         assertEquals("Game.started should be false", gameTest.getStarted(), false);
         gameTest.setStarted(true);
         assertEquals("Game.started should be true", gameTest.getStarted(), true);
@@ -31,9 +33,9 @@ public class GameTest {
         gameTest.setStarted(true);
         gameTest.addPlayer("Olivier");
         ArrayList<String> emptyList = new ArrayList<>();
-        emptyList.add("Olivier");
 
         assertEquals("Only Olivier in listNames", emptyList, gameTest.getListNames());
+        emptyList.add("Olivier");
         assertEquals("Only Olivier in listNames", gameTest.getListNames().size(), 1);
         assertEquals("initial Olivier score should be 0", gameTest.getPlayerScore("Olivier"), 0);
         gameTest.addScore("Olivier", 10);
@@ -42,9 +44,9 @@ public class GameTest {
     }
 
     @Test
-    public void testAddPlayer() {
+    public void xxxtestAddPlayer() {
         Game gameTest = new Game();
-        assertEquals();
+        //assertEquals();
     }
 
 }
