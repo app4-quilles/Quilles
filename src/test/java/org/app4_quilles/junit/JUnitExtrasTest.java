@@ -14,8 +14,7 @@ public class JUnitExtrasTest {
     public void asyncTestOK() {
         try {
             assertTrue("this test should be successful", JUnitExtras.asyncTest((ok) -> {
-                ok.accept(true);
-                // TODO put this ^^^^^^ in async function
+                ok.accept(true); //finish the test with the provided result.
             }));
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,7 +26,7 @@ public class JUnitExtrasTest {
     public void asyncTestKO() {
         try {
             assertFalse("this test should fail", JUnitExtras.asyncTest((ok) -> {
-                ok.accept(false);
+                ok.accept(false); //finish the test with the provided result.
             }));
         } catch (Exception e) {
             e.printStackTrace();
