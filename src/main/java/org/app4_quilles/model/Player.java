@@ -128,7 +128,7 @@ public class Player {
         return lastShot;
     }
 
-    public void setLastShot(Integer lastShot) {
+    public void setLastShot(int lastShot) {
         this.lastShot = lastShot;
     }
 
