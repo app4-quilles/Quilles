@@ -1,7 +1,8 @@
 package org.app4_quilles.model;
 
-import java.util.Arrays;
-
+/**
+ * This class represents a player.
+ */
 public class Player {
 
     //----------------------------------------------------------------------------------------------------------------//
@@ -25,14 +26,15 @@ public class Player {
     //--------------------------------------------------Constructors--------------------------------------------------//
     //----------------------------------------------------------------------------------------------------------------//
 
-    /**Basic constructor. Initializes the points array to 10 rounds and the name to "".*/
+    /**Default constructor. Initializes the points array to 10 rounds and the name to "".*/
     public Player() {
         this.name = "";
         this.points = new Integer[10][2];
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {       //initializing the cells to 0
             this.points[i][0] = 0;
             this.points[i][1] = 0;
         }
+        this.lastShot = 0;
     }
 
     /**
@@ -44,17 +46,18 @@ public class Player {
         this.name = name;
         this.points = new Integer[turns][2];
         this.turns = turns;
-        for(int i = 0; i < turns; i++) {
+        for(int i = 0; i < turns; i++) {    //initializing the cells to 0
             this.points[i][0] = 0;
             this.points[i][1] = 0;
         }
+        this.lastShot = 0;
     }
 
 
     //----------------------------------------------------------------------------------------------------------------//
     //-------------------------------------------------Various methods------------------------------------------------//
     //----------------------------------------------------------------------------------------------------------------//
-    
+
     @Override
     public String toString() {
         String res = "Player[\n\tname = " + this.name + "\n\tpoints =\n\t\t";
@@ -69,6 +72,11 @@ public class Player {
         res += "\n\tlastShot = " + lastShot + "]";
         return res;
     }
+
+
+    //----------------------------------------------------------------------------------------------------------------//
+    //-----------------------------------------------Getters an setters-----------------------------------------------//
+    //----------------------------------------------------------------------------------------------------------------//
 
     /**
      * Returns a value in the 2*n points array.
@@ -93,13 +101,9 @@ public class Player {
         if (y < 2 && x < turns) {
             this.getPoints()[x][y] = value;
         } else {
-            System.out.println("Insertion error : Incorrectes coordinates.");
+            System.out.println("Insertion error : Incorrect coordinates.");
         }
     }
-
-    //----------------------------------------------------------------------------------------------------------------//
-    //-----------------------------------------------Getters an setters-----------------------------------------------//
-    //----------------------------------------------------------------------------------------------------------------//
 
     /**
      * @return : The player's name
@@ -122,15 +126,27 @@ public class Player {
         return points;
     }
 
-    /*public void setPoints(Integer[][] points) {
-        this.points = points;
-    }*/
-
     public Integer getLastShot() {
         return lastShot;
     }
 
     public void setLastShot(Integer lastShot) {
         this.lastShot = lastShot;
+    }
+
+    public int getTurns() {
+        return turns;
+    }
+
+    public void setTurns(int turns) {
+        int max = Integer.max(this.turns, turns);
+        this.turns = turns;
+        Integer[][] newPoints = new Integer[turns][2];
+
+        for (int i = 0; i < max; i++) {
+            newPoints[i][0] = this.points[i][0];
+            newPoints[i][1] = this.points[i][1];
+        }
+        this.points = newPoints;
     }
 }
