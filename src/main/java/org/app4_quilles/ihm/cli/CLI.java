@@ -2,6 +2,7 @@ package org.app4_quilles.ihm.cli;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -43,8 +44,8 @@ public class CLI {
      * Asks the user for an integer while the input is not valid
      * and return the result
      * @param promptMsg display message
-     * @param min min value
-     * @param max max value
+     * @param min min value, included
+     * @param max max value, included
      * @return user's response
      */
     public int getInputInt(String promptMsg, int min, int max) {
@@ -126,12 +127,37 @@ public class CLI {
         return getInputString(promptMsg, (str) -> {return true;});   
     }
 
-    public int showMenu(String title, ArrayList<MenuOption> options, int page) {
-        return 0;
-    }
+    /**
+     * Shows a menu of options, with an index associated for each option.
+     * Asks the user for one of the options, and execute the associated action.
+     * @param title
+     * @param options (at least one must be provided)
+     * @return the selected value
+     */
     public int showMenu(String title, ArrayList<MenuOption> options) {
-        return 0;
+        if (options == null || options.isEmpty()) {
+            throw new MenuException("At least one option must be provided");
+        }
+
+        // display
+        System.out.println("================ ["+title+"] ================");
+
+        int minInput = 0;
+        int maxInput = options.size() - 1;
+        
+        for (int i = minInput; i <= maxInput; i++) {
+            System.out.println(i + " - " + options.get(i).getTitle());
+        }
+
+        // input
+        int response = getInputInt("-> action ("+minInput+" to "+maxInput+")", minInput, maxInput);
+
+        // action
+        System.out.println("================ [ => " + options.get(response).getTitle() + "] ================");
+        options.get(response).call();
+        return response;
     }
+
     /**
      * Put the program on hold until the user presses Enter.
      * @param promptMsg message to display
@@ -156,8 +182,14 @@ public class CLI {
             cli.pressEnterToConfirm();
             System.out.println(cli.getInputString("string"));
             System.out.println(cli.getInputString("string with at most 10 chars", ((str) -> str.length() < 10)));
+            
             System.out.println(cli.getInputInt("int"));
             System.out.println(cli.getInputInt("int between 0 and 5", 0, 5));
+            
+            System.out.println(cli.showMenu("menu", new ArrayList<>(Arrays.asList(
+                new MenuOption("yes", () -> {System.out.println("yes");}),
+                new MenuOption("no", () -> {System.out.println("no");})
+            ))));
         } catch (MenuException e) {
             e.printStackTrace();
         }

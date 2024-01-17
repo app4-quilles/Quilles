@@ -3,7 +3,6 @@ package org.app4_quilles.junit;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class JUnitExtras {
 
@@ -29,7 +28,7 @@ public class JUnitExtras {
      * @return The test success
      * @throws Exception
      */
-    public static boolean asyncTest(Consumer<Consumer<Boolean>> fn) throws Exception {
+    public static boolean asyncTest(Consumer<Consumer<Boolean>> fn) throws AsyncTestException {
         CountDownLatch latch = new CountDownLatch(1);
         final State success = new State(false);
 
@@ -45,7 +44,7 @@ public class JUnitExtras {
             // (executed in the same thread). That means it cannot timeout.
             boolean isOnTime = latch.await(0, TimeUnit.MILLISECONDS);
             if (isOnTime) return success.value;
-            else throw new Exception("Unexpected behavior in asyncTest. Make sure you called accept()!");
+            else throw new AsyncTestException("Unexpected behavior in asyncTest. Make sure you called accept()!");
 
         } catch (InterruptedException e) {
             e.printStackTrace();
