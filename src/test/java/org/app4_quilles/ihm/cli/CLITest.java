@@ -60,7 +60,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -75,7 +75,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -166,7 +166,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -192,7 +192,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -218,7 +218,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -234,7 +234,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -251,7 +251,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -268,7 +268,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -276,7 +276,7 @@ public class CLITest {
     public void refusesInvalidStringInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("thisIsTooLongForTheInput ThisIsOk"));
+            final CLI cli = new CLI(genUserInput("thisIsTooLongForTheInput\nThisIsOk"));
 
             assertTrue("refuses invalid string input", JUnitExtras.asyncTest((ok) -> {
                 String result = cli.getInputString("please give some input", ((text) -> text.length() < 10));
@@ -285,7 +285,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -302,7 +302,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -319,7 +319,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -336,7 +336,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 
@@ -353,7 +353,7 @@ public class CLITest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("CLI init failure");
+            fail("CLI init failure: " + e.getMessage());
         }
     }
 }

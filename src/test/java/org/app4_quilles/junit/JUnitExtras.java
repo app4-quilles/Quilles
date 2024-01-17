@@ -45,7 +45,7 @@ public class JUnitExtras {
             // (executed in the same thread). That means it cannot timeout.
             boolean isOnTime = latch.await(0, TimeUnit.MILLISECONDS);
             if (isOnTime) return success.value;
-            else throw new Exception("Unexpected behavior in asyncTest");
+            else throw new Exception("Unexpected behavior in asyncTest. Make sure you called accept()!");
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package org.app4_quilles.ihm.cli;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Function;
 
@@ -38,12 +39,49 @@ public class CLI {
     public int getInputInt(String promptMsg) {
         return 0;
     }
+
+    /**
+     * Ask the user for a string while the input is invalid
+     * and return the result
+     * @param promptMsg
+     * @param validityFunction function that returns if a string is a valid input
+     * @return
+     */
     public String getInputString(String promptMsg, Function<String, Boolean> validityFunction) {
-        return "";
+        String response = null;
+
+        boolean invalid = true;
+
+        // re-ask until the input is valid
+        while (invalid) {
+            System.out.print(promptMsg + ": ");
+            
+            try {
+                response = scanner.nextLine();
+                invalid = !validityFunction.apply(response);
+            } catch (InputMismatchException e) {
+                invalid = true;
+                // empty the queue to not cause an infinite loop
+                // due to the invalid value not being consumed.
+                scanner.next();
+            }
+            
+            if (invalid) System.out.println("invalid input!");
+        }
+
+        return response;
     }
+
+    /**
+     * Ask the user for a string while the input is invalid
+     * and return the result
+     * @param promptMsg
+     * @return
+     */
     public String getInputString(String promptMsg) {
-        return "";    
+        return getInputString(promptMsg, (str) -> {return true;});   
     }
+
     public int showMenu(String title, ArrayList<MenuOption> options, int page) {
         return 0;
     }
