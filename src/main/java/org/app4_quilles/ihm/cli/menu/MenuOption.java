@@ -6,4 +6,15 @@ public class MenuOption {
 
     public MenuOption(String title) {
     }
+
+    public String getTitle() {
+        return "";
+    }
+
+    /**
+     * Triggers the option's action
+     */
+    public void call() {
+
+    }
 }

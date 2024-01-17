@@ -30,6 +30,9 @@ public class CLI {
     public int showMenu(String title, ArrayList<MenuOption> options) {
         return 0;
     }
+    public static void pressEnterToConfirm(String promptMsg) {
+        
+    }
     public void pressEnterToConfirm() {
     }
 }

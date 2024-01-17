@@ -1,6 +1,7 @@
 package org.app4_quilles.ihm.cli;
 
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -8,8 +9,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.app4_quilles.ihm.cli.menu.Action;
 import org.app4_quilles.ihm.cli.menu.MenuException;
 import org.app4_quilles.ihm.cli.menu.MenuOption;
+import org.app4_quilles.junit.JUnitExtras;
 import org.junit.Test;
 
 public class CLITest {
@@ -82,9 +85,271 @@ public class CLITest {
             final CLI cli = new CLI(genUserInput(""));
 
             cli.showMenu("title", new ArrayList<>(Arrays.asList(
-                new MenuOption("title"),
-                new MenuOption("title")
+                new MenuOption("a"),
+                new MenuOption("b")
             )));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsFirstUserInput() {
+        try {
+            final CLI cli = new CLI(genUserInput("0"));
+
+            assertTrue("accepts the first possible user input", JUnitExtras.asyncTest((ok) -> {
+                cli.showMenu("title", new ArrayList<>(Arrays.asList(
+                    new MenuOption("a", () -> {
+                        ok.accept(true);
+                    }),
+                    new MenuOption("b", () -> {
+                        ok.accept(false);
+                    }),
+                    new MenuOption("c", () -> {
+                        ok.accept(false);
+                    })
+                )));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsMiddleUserInput() {
+        try {
+            final CLI cli = new CLI(genUserInput("1"));
+
+            assertTrue("accepts a user input from somewhere in the middle of the list", JUnitExtras.asyncTest((ok) -> {
+                cli.showMenu("title", new ArrayList<>(Arrays.asList(
+                    new MenuOption("a", () -> {
+                        ok.accept(false);
+                    }),
+                    new MenuOption("b", () -> {
+                        ok.accept(true);
+                    }),
+                    new MenuOption("c", () -> {
+                        ok.accept(false);
+                    })
+                )));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsLastUserInput() {
+        try {
+            final CLI cli = new CLI(genUserInput("2"));
+
+            assertTrue("accepts the last possible user input", JUnitExtras.asyncTest((ok) -> {
+                cli.showMenu("title", new ArrayList<>(Arrays.asList(
+                    new MenuOption("a", () -> {
+                        ok.accept(false);
+                    }),
+                    new MenuOption("b", () -> {
+                        ok.accept(false);
+                    }),
+                    new MenuOption("c", () -> {
+                        ok.accept(true);
+                    })
+                )));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void refusesTooLowInput() {
+        try {
+            //doesn't throw, so a valid option is necessary to end the test
+            final CLI cli = new CLI(genUserInput("-1 1"));
+
+            assertTrue("refuses too low user input", JUnitExtras.asyncTest((ok) -> {
+                cli.showMenu("title", new ArrayList<>(Arrays.asList(
+                    new MenuOption("a", () -> {
+                        ok.accept(false);
+                    }),
+                    new MenuOption("b", () -> {
+                        ok.accept(true);
+                    }),
+                    new MenuOption("c", () -> {
+                        ok.accept(false);
+                    })
+                )));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void refusesTooHighUserInput() {
+        try {
+            //doesn't throw, so a valid option is necessary to end the test
+            final CLI cli = new CLI(genUserInput("3 1"));
+
+            assertTrue("refuses too high user input", JUnitExtras.asyncTest((ok) -> {
+                cli.showMenu("title", new ArrayList<>(Arrays.asList(
+                    new MenuOption("a", () -> {
+                        ok.accept(false);
+                    }),
+                    new MenuOption("b", () -> {
+                        ok.accept(true);
+                    }),
+                    new MenuOption("c", () -> {
+                        ok.accept(false);
+                    })
+                )));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void pressEnterToConfirmWorksOnEnter() {
+        try {
+            final CLI cli = new CLI(genUserInput("\n"));
+
+            assertTrue("press enter to confirm works on enter", JUnitExtras.asyncTest((ok) -> {
+                cli.pressEnterToConfirm();
+                ok.accept(true);
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsStringInput() {
+        String test = "text";
+        try {
+            final CLI cli = new CLI(genUserInput(test));
+
+            assertTrue("accepts string input", JUnitExtras.asyncTest((ok) -> {
+                String result = cli.getInputString("please give some input");
+                ok.accept(result.equals(test));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsConditionalStringInput() {
+        String test = "ok";
+        try {
+            final CLI cli = new CLI(genUserInput(test));
+
+            assertTrue("accepts conditional string input", JUnitExtras.asyncTest((ok) -> {
+                String result = cli.getInputString("please give some input", ((text) -> text.length() < 10));
+                ok.accept(result.equals(test));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void refusesInvalidStringInput() {
+        try {
+            //doesn't throw, so a valid option is necessary to end the test
+            final CLI cli = new CLI(genUserInput("thisIsTooLongForTheInput ThisIsOk"));
+
+            assertTrue("refuses invalid string input", JUnitExtras.asyncTest((ok) -> {
+                String result = cli.getInputString("please give some input", ((text) -> text.length() < 10));
+                ok.accept(result.equals("ThisIsOk"));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsIntInput() {
+        Integer test = 5;
+        try {
+            final CLI cli = new CLI(genUserInput(test.toString()));
+
+            assertTrue("accepts integer input", JUnitExtras.asyncTest((ok) -> {
+                Integer result = cli.getInputInt("please give some input");
+                ok.accept(result.equals(test));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void acceptsConditionalIntInput() {
+        Integer test = 5;
+        try {
+            final CLI cli = new CLI(genUserInput(test.toString()));
+
+            assertTrue("accepts conditional integer input", JUnitExtras.asyncTest((ok) -> {
+                Integer result = cli.getInputInt("please give some input", 0, 10);
+                ok.accept(result.equals(test));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void refusesTooHighIntegerInput() {
+        try {
+            //doesn't throw, so a valid option is necessary to end the test
+            final CLI cli = new CLI(genUserInput("15 5"));
+
+            assertTrue("refuses too high integer input", JUnitExtras.asyncTest((ok) -> {
+                Integer result = cli.getInputInt("please give some input", 0, 10);
+                ok.accept(result.equals(5));
+            }));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("CLI init failure");
+        }
+    }
+
+    @Test(timeout = 500)
+    public void refusesTooLowIntegerInput() {
+        try {
+            //doesn't throw, so a valid option is necessary to end the test
+            final CLI cli = new CLI(genUserInput("-5 5"));
+
+            assertTrue("refuses too low integer input", JUnitExtras.asyncTest((ok) -> {
+                Integer result = cli.getInputInt("please give some input", 0, 10);
+                ok.accept(result.equals(5));
+            }));
 
         } catch (Exception e) {
             e.printStackTrace();
