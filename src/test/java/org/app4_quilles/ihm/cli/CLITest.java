@@ -293,7 +293,7 @@ public class CLITest {
     public void acceptsIntInput() {
         Integer test = 5;
         try {
-            final CLI cli = new CLI(genUserInput(test.toString()));
+            final CLI cli = new CLI(genUserInput(test.toString() + "\n"));
 
             assertTrue("accepts integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input");
@@ -310,7 +310,7 @@ public class CLITest {
     public void acceptsConditionalIntInput() {
         Integer test = 5;
         try {
-            final CLI cli = new CLI(genUserInput(test.toString()));
+            final CLI cli = new CLI(genUserInput(test.toString() + "\n"));
 
             assertTrue("accepts conditional integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input", 0, 10);
@@ -327,7 +327,7 @@ public class CLITest {
     public void refusesTooHighIntegerInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("15 5"));
+            final CLI cli = new CLI(genUserInput("15\n5\n"));
 
             assertTrue("refuses too high integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input", 0, 10);
@@ -344,7 +344,7 @@ public class CLITest {
     public void refusesTooLowIntegerInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("-5 5"));
+            final CLI cli = new CLI(genUserInput("-5\n5\n"));
 
             assertTrue("refuses too low integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input", 0, 10);
