@@ -229,7 +229,7 @@ public class CLITest {
 
             assertTrue("press enter to confirm works on enter", JUnitExtras.asyncTest((ok) -> {
                 cli.pressEnterToConfirm();
-                ok.accept(true);
+                ok.accept(!cli.scannerHasString());
             }));
 
         } catch (Exception e) {

@@ -5,13 +5,33 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import org.app4_quilles.ihm.cli.menu.MenuException;
 import org.app4_quilles.ihm.cli.menu.MenuOption;
 
 public class CLI {
 
-    CLI(InputStream scanner) throws Exception {
-        throw new Exception();
+    public final Scanner scanner;
+
+    /**
+     * Prepares a new CLI interface.
+     * @param inputStream InputStream to use. Useful for mocking purposes. The provided scanner must **NOT** be closed.
+     * @throws Exception
+     */
+    CLI(InputStream inputStream) throws MenuException {
+        if (inputStream == null) throw new MenuException("InputStream must be specified.");
+        this.scanner = new Scanner(inputStream);
     }
+
+    CLI() throws MenuException {
+        this(System.in);
+    }
+
+    /**
+     * Returns if the scanner can eat a string
+     * @return
+     */
+    public boolean scannerHasString() {return scanner.hasNextLine();}
+
     public int getInputInt(String promptMsg, int min, int max) {
         return 0;
     }
@@ -30,60 +50,30 @@ public class CLI {
     public int showMenu(String title, ArrayList<MenuOption> options) {
         return 0;
     }
-    public static void pressEnterToConfirm(String promptMsg) {
-        
+    /**
+     * Put the program on hold until the user presses Enter.
+     * @param promptMsg message to display
+     */
+    public void pressEnterToConfirm(String promptMsg) {
+        System.out.print(promptMsg + " [press Enter]");
+        scanner.nextLine();
     }
+
     public void pressEnterToConfirm() {
+        pressEnterToConfirm("");
+    }
+
+    /**
+     * main for testing CLI behavior manually.
+     * @param args
+     */
+    public static void main(String[] args) {
+        CLI cli;
+        try {
+            cli = new CLI();
+            cli.pressEnterToConfirm();
+        } catch (MenuException e) {
+            e.printStackTrace();
+        }
     }
 }
-
-
-
-
-
-
-//     /**
-//      * tests
-//      * @param args
-//      */
-//     public  void main(String[] args) {
-//         int v = getInputInt("test");
-//         System.out.println("=> " + v);
-
-//         int w = getInputInt("test", -2, 2);
-//         System.out.println("=> " + w);
-
-//         String s = getInputString("test str");
-//         System.out.println("=> " + s);
-
-//         String s2 = getInputString("test str length of 3", (str) -> {return str.length() >= 3;});
-//         System.out.println("=> " + s2);
-
-//         pressEnterToConfirm("back");
-
-//         try {
-//             showMenu(null, null);
-//         } catch (Exception e) {
-//             // it should throw if no option is given (not for a null title)
-//             int result = showMenu("yes or no ?", new ArrayList<>(Arrays.asList(
-//                 new MenuOption("yes", () -> {
-//                     System.out.println("it's a yes.");
-//                 }),
-//                 new MenuOption("no", () -> {
-//                     System.out.println("it's a no.");
-//                 })
-//             )));
-//             System.out.println("it was " + result);
-
-//             ArrayList<MenuOption> options = new ArrayList<>();
-//             for (int i = 0; i < 70; i++) {
-//                 final int index = i;
-//                 options.add(new MenuOption("do " + i, () -> {
-//                     System.out.println("it is " + index);
-//                 }));
-//             }
-//             int result2 = showMenu("a lot of stuff", options);
-//             System.out.println(result2 + ", it was.");
-//         }
-//     }
-// }
