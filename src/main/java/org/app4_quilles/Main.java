@@ -1,4 +1,6 @@
 package org.app4_quilles;
+import org.app4_quilles.model.Player;
+
 
 import org.app4_quilles.model.Game;
 
