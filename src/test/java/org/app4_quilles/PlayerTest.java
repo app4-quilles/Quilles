@@ -9,92 +9,98 @@ import org.junit.Test;
  */
 public class PlayerTest {
 
+    private int turnAmount = 10;
+
     @Test
-    public void TestingUseCase() {
+    public void TestPlayerConstructorNormal() {
+        Player p = new Player("name", turnAmount);
+        Assert.assertEquals("wrong name from the Player constructor", p.getName(), "name");
+        if (turnAmount > 0) Assert.assertEquals("wrong turn quantity from the Player constructor", p.getTurns(), turnAmount);
+        else                Assert.assertEquals(p.getTurns(), 1);
+    }
 
-        //testing the constructor
-        int turnAmount = 10;
-        Player p = new Player("nano", turnAmount);
-        Assert.assertEquals("name should be equal to 'nano'", p.getName(), "nano");
-        Assert.assertNotEquals("points array should not bez null", p.getPoints(), null);
+    @Test
+    public void TestPlayerConstructorTooFewTurns() {
+        Player p = new Player("name", 0);
+        Assert.assertEquals("this value should be 1", p.getTurns(), 1);
+    }
 
-        //testing the default cell values
-        for (int x = 0; x < turnAmount; x++) {
+    @Test
+    public void TestPointsArrayInitialisation() {
+        Player p = new Player("name", turnAmount);
+        for (int x = 0; x < turnAmount + 1; x++) {
             for (int y = 0; y < 2; y++) {
-                Assert.assertEquals("all the points cells must be 0 after creating the player", p.getPoints()[x][y].intValue(), 0);
+                Assert.assertEquals("this value should be 0", p.getPoints()[x][y], Integer.valueOf(0));
             }
         }
+    }
 
-        //testing
-        Assert.assertEquals("this cell should be 0", p.getPoints()[0][0].intValue(), 0);
-        try {
-            p.setPoint(0, 0, 1);
-        } catch (Exception e) {
-            System.err.println("Exception while calling setPoint()");
-        }
-        Assert.assertEquals("this cell should have been changed to 1", p.getPoints()[0][0].intValue(), 1);
-
-        //Testing the last cells
-        Assert.assertEquals("this cell should be 0", p.getPoints()[turnAmount-1][0].intValue(), 0);
-        Assert.assertEquals(p.getPoints()[turnAmount-1][1].intValue(), 0);
-        try {
-            p.setPoint(turnAmount-1, 0, 42);
-            p.setPoint(turnAmount-1, 1, 43);
-        } catch (Exception e) {
-            System.err.println("Exception while calling setPoint()");
-        }
-
-        Assert.assertEquals("this cell should be 42", p.getPoints()[turnAmount-1][0].intValue(), 42);
-        Assert.assertEquals("this cell should be 43", p.getPoints()[turnAmount-1][1].intValue(), 43);
-
-
-        p.getPoints()[turnAmount-1][1] = 43;
-
-        //testing the getPoint() method
+    @Test
+    public void TestGetPoint() {
+        Player p = new Player("name", turnAmount);
         for (int x = 0; x < turnAmount; x++) {
             for (int y = 0; y < 2; y++) {
                 Assert.assertEquals("the values given by getPoint and getPoints should be coherent", p.getPoint(x, y), p.getPoints()[x][y]);
             }
         }
-
     }
 
     @Test
-    public void TestingLimitCase() {
-        int turnAmount = 10;
-        //testing the getPoints() method
-        Player p = new Player("salu", turnAmount);
-        try {
-            p.setPoint(turnAmount-1, 1, 43);
-        }
-        catch(Exception e) {
-            System.err.println("Error while calling setPoint");
-        }
-        Assert.assertEquals("Before trying to change the value through the getter", p.getPoints()[9][1].intValue(), 43);
-        p.getPoints()[turnAmount-1][1] = 44;   //this change is ,not supposed to be effective
-        //Assert.assertEquals("After trying to change the value through the getter", p.getPoints()[9][1].intValue(), 43);
-
-
+    public void TestSetPoint() {
+        Player p = new Player("name", turnAmount);
+        Assert.assertEquals("this should be equal to 0", p.getPoint(0, 1), Integer.valueOf(0));
+        try { p.setPoint(1, 1, 5); }
+        catch (Exception e) {Assert.fail("this call should not make the program crash");}
+        Assert.assertEquals("this should be equal to 0", p.getPoint(1, 1), Integer.valueOf(5));
     }
 
     @Test
-    public void TestingFailureCase() {
-        int turnAmount = 10;
-        Player p = new Player("salu", turnAmount);
+    public void TestSetPoints() {
+        Player p = new Player("name", turnAmount);
+        Integer[][] array = p.getPoints();
+        array[0][0] = 5;
+        array[0][1] = 6;
 
-        try {
-            p.setPoint(0, 3, 44);
-        } catch (Exception e) {
-            System.err.println("There has effectively been an error while affecting a point to an non-existent layer.");
-        }
+        try { p.setPoints(array); }
+        catch (Exception e) {Assert.fail("this call should not make the program crash");}
+        Assert.assertEquals("this should be equal to 0", p.getPoints(), array);
+    }
+
+    @Test
+    public void TestSetPointsWrongDimensions() {
+        Player p = new Player("name", turnAmount);
 
         Integer[][] newArray = new Integer[turnAmount][1];
         try {
             p.setPoints(newArray);
-        } catch(Exception e) {
-            System.err.println("setPoint() didn't accept the wrong size of newArray and threw an exception.");
-        }
-
-        
+            Assert.fail("setPoint() should have crashed because of the wrong dimensions.");
+        } catch(Exception e) {}
     }
+
+    @Test
+    public void TestGetPointsEncapsulation() {
+        Player p = new Player("name", turnAmount);
+        Assert.assertEquals("before trying to change the value through the getter", p.getPoints()[turnAmount][1].intValue(), 0);
+        p.getPoints()[turnAmount-1][1] = 5;   //this change is ,not supposed to be effective
+        Assert.assertEquals("this value should not have changed", p.getPoints()[turnAmount][1].intValue(), 0);
+    }
+
+    @Test
+    public void TestOutOfBounds() {
+        Player p = new Player("name", turnAmount);
+
+        try {
+            p.setPoint(0, 2, 5);     //2 is out of bounds
+            Assert.fail("setPoint is supposed to have crashed (non existent layer)");
+        }
+        catch (Exception e) {}
+
+        try {
+            p.setPoint(turnAmount + 1, 0, 5);   //turnAmount is out of bounds
+            Assert.fail("setPoint is supposed to have crashed (non existent turn)");
+        }
+        catch (Exception e) {}
+
+    }
+
 }
