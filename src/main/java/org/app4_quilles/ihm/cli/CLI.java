@@ -69,7 +69,10 @@ public class CLI {
                 scanner.next();
             }
             
-            if (invalid) System.out.println("invalid input!");
+            if (invalid) {
+                System.out.println("invalid input!");
+                onInvalidInput.action();
+            }
         }
 
         scanner.nextLine(); // consume the \n not consumed by nextInt()
@@ -126,7 +129,10 @@ public class CLI {
                 scanner.next();
             }
             
-            if (invalid) System.out.println("invalid input!");
+            if (invalid) {
+                System.out.println("invalid input!");
+                onInvalidInput.action();
+            }
         }
 
         return response;
@@ -177,7 +183,7 @@ public class CLI {
         }
 
         // input
-        int response = getInputInt("-> action ("+minInput+" to "+maxInput+")", minInput, maxInput);
+        int response = getInputInt("-> action ("+minInput+" to "+maxInput+")", minInput, maxInput, onInvalidInput);
 
         // action
         System.out.println("================ [ => " + options.get(response).getTitle() + "] ================");
