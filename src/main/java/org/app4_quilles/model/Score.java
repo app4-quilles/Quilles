@@ -48,7 +48,7 @@ public class Score {
 	        }
 	    }
 		numberOfPins = 10;
-		calculScore(pins);
+		CalculScore(pins, pins.length-1);
 	}
 	/**
 	 * Constructor with no default value
@@ -63,13 +63,13 @@ public class Score {
 	        }
 	    }
 		numberOfPins = nb;
-		calculScore(pins);
+		CalculScore(pins, pins.length-1);
 	}
 	/**
 	 * The function which calculate the values and save them in scoreTab
 	 * @param pins the tab with each pin fallen in shot 1 or shot 2 for each round         
 	 */
-	public void calculScore(int[][] pins) {
+	public void CalculScore(int[][] pins, int currentRound) {
 		//lastShot is the second shot a player get when they do a strike on their last round.
 		int total = 0;
 		for (int i = 0; i < pins.length-1; i++) {
@@ -93,8 +93,10 @@ public class Score {
 	        else if(pins[i][0] + pins[i][1] == numberOfPins) res += pins[i + 1][0];
 	        
 	        scoreTab[i][0] = res;
-	        total += res;
-	        scoreTab[i][1] = total;
+	        if (i <= currentRound) {
+	        	total += res;
+		        scoreTab[i][1] = total;
+	        }
 	    }
 	}
 }
