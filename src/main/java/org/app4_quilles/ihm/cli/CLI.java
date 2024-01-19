@@ -47,9 +47,10 @@ public class CLI {
      * @param promptMsg display message
      * @param min min value, included
      * @param max max value, included
+     * @param onInvalidInput callback when the user enters an invalid value
      * @return user's response
      */
-    public int getInputInt(String promptMsg, int min, int max) {
+    public int getInputInt(String promptMsg, int min, int max, Action onInvalidInput) {
         int response = -1;
 
         boolean invalid = true;
@@ -76,8 +77,16 @@ public class CLI {
         return response;
     }
 
-    public int getInputInt(String promptMsg, int min, int max, Action onInvalidInput) {
-        return 0;
+    /**
+     * Asks the user for an integer while the input is not valid
+     * and return the result
+     * @param promptMsg display message
+     * @param min min value, included
+     * @param max max value, included
+     * @return user's response
+     */
+    public int getInputInt(String promptMsg, int min, int max) {
+        return getInputInt(promptMsg, Integer.MIN_VALUE, Integer.MAX_VALUE, () -> {});
     }
 
     /**
@@ -95,9 +104,10 @@ public class CLI {
      * and return the result
      * @param promptMsg display message
      * @param validityFunction function that returns if a string is a valid input
+     * @param onInvalidInput callback when the user enters an invalid value
      * @return user's response
      */
-    public String getInputString(String promptMsg, Function<String, Boolean> validityFunction) {
+    public String getInputString(String promptMsg, Function<String, Boolean> validityFunction, Action onInvalidInput) {
         String response = null;
 
         boolean invalid = true;
@@ -122,8 +132,15 @@ public class CLI {
         return response;
     }
 
-    public String getInputString(String promptMsg, Function<String, Boolean> validityFunction, Action onInvalidInput) {
-        return "";
+    /**
+     * Ask the user for a string while the input is invalid
+     * and return the result
+     * @param promptMsg display message
+     * @param validityFunction function that returns if a string is a valid input
+     * @return user's response
+     */
+    public String getInputString(String promptMsg, Function<String, Boolean> validityFunction) {
+        return getInputString(promptMsg, validityFunction, () -> {});
     }
 
     /**
@@ -141,9 +158,10 @@ public class CLI {
      * Asks the user for one of the options, and execute the associated action.
      * @param title
      * @param options (at least one must be provided)
+     * @param onInvalidInput callback when the user enters an invalid value
      * @return the selected value
      */
-    public int showMenu(String title, ArrayList<MenuOption> options) {
+    public int showMenu(String title, ArrayList<MenuOption> options, Action onInvalidInput) {
         if (options == null || options.isEmpty()) {
             throw new MenuException("At least one option must be provided");
         }
@@ -167,8 +185,15 @@ public class CLI {
         return response;
     }
 
-    public int showMenu(String title, ArrayList<MenuOption> options, Action onInvalidInput) {
-        return 0;
+    /**
+     * Shows a menu of options, with an index associated for each option.
+     * Asks the user for one of the options, and execute the associated action.
+     * @param title
+     * @param options (at least one must be provided)
+     * @return the selected value
+     */
+    public int showMenu(String title, ArrayList<MenuOption> options) {
+        return showMenu(title, options, () -> {});
     }
 
     /**
