@@ -15,9 +15,6 @@ public class Player {
     /**The array that will be displayed in the scoreboard*/
     private Integer[][] points;
 
-    /**The last shot ?*/
-    private Integer lastShot;
-
     /**The amount of turns in the game*/
     private int turns = 0;
 
@@ -33,13 +30,12 @@ public class Player {
      */
     public Player(String name, int turns) {
         this.name = name;
-        this.points = new Integer[turns][2];
+        this.points = new Integer[turns + 1][2];
         this.turns = turns;
         for(int i = 0; i < turns; i++) {    //initializing the cells to 0
             this.points[i][0] = 0;
             this.points[i][1] = 0;
         }
-        this.lastShot = 0;
     }
 
 
@@ -58,7 +54,7 @@ public class Player {
             res += tab[1] + ", ";
         }
 
-        res += "\n\tlastShot = " + lastShot + "]";
+        res += "]";
         return res;
     }
 
@@ -122,14 +118,6 @@ public class Player {
             throw new Exception("Wrong size for 2D array (there must be exactly two layers).");
         }
         this.points = points;
-    }
-
-    public Integer getLastShot() {
-        return lastShot;
-    }
-
-    public void setLastShot(int lastShot) {
-        this.lastShot = lastShot;
     }
 
     public int getTurns() {
