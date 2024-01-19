@@ -17,7 +17,7 @@ public class Game {
     //Constructors
     public Game(){
         this.started = false;
-        this.amountOfTurns = 10;
+        this.amountOfTurns = 11;
         this.amountOfPins = 10;
         this.amountOfPlayers = 0;
         this.listPlayers = new ArrayList<>();
@@ -166,8 +166,8 @@ public class Game {
         //Game setup
         System.out.println("Game setup.");
 
-        this.amountOfTurns = retrieveInt("Enter amount of turns (must be a number)");
-        System.out.println("Amount of turns : "+this.amountOfTurns);
+        this.amountOfTurns = retrieveInt("Enter amount of turns (must be a number)") + 1;
+        System.out.println("Amount of turns : "+(this.amountOfTurns-1));
 
         this.amountOfPins = retrieveInt("Enter amount of pins (must be a number)");
         System.out.println("Amount of pins : "+this.amountOfPins);
@@ -184,7 +184,7 @@ public class Game {
 
         //Initializing score calculator for each player
         for (Player p : this.listPlayers) {
-            Score sc = new Score(this.amountOfPins, getNewArray(this.amountOfTurns), 0);
+            Score sc = new Score(this.amountOfPins, getNewArray(this.amountOfTurns + 1));
             this.scores.put(p, sc);
 
             this.pinsMap.put(p, getNewArray(this.amountOfTurns));
@@ -194,21 +194,20 @@ public class Game {
         System.out.println("Game started");
         int firstPinsTouched = 0;
         int secondPinsTouched = 0;
-        for (int turn = 0; turn <  this.amountOfTurns; turn++) {
+        for (int turn = 0; turn < this.amountOfTurns; turn++) {
             for (Player p : this.listPlayers) {
-                System.out.println("score beginning turn " + turn+1 + " : " + p.toString());
+                Boolean extraShot = false;  //variable to be set to true in the last turn if the player hits a strike or a spare
+                System.out.println("score beginning turn " + (turn+1) + " : " + p.toString());
                 firstPinsTouched = 0;
                 secondPinsTouched = 0;
                 Integer[][] currentPlayerPoints = p.getPoints();
                 Score playerScore = this.scores.get(p);
 
-
-                firstPinsTouched = retrieveInt("First shot of " + p.getName() + " : enter pins touched (must be a number)");
+                firstPinsTouched = retrieveInt("Turn " + turn + ", first shot of " + p.getName() + " : enter pins touched (must be a number)");
                 this.pinsMap.get(p)[turn][0] = firstPinsTouched;
-                playerScore.calculScore(this.pinsMap.get(p), 0);
-                //stringIntArray(playerScore.getScoreTab());//debug
+                playerScore.calculScore(this.pinsMap.get(p));
                 currentPlayerPoints = intArrayToIntegerArray(playerScore.getScoreTab());
-                //stringIntegerArray(currentPlayerPoints);
+
                 try{
                     p.setPoints(currentPlayerPoints);
                 }
@@ -223,17 +222,33 @@ public class Game {
                     this.pinsMap.get(p)[turn][1] = 0;
                     System.out.println("STRIKE !!!!!!!!!!!!!!!!!!!!!!!!!!");
                     System.out.println("score end turn " + turn+1 + " : " + p.toString());
-                    continue;
+                    if (turn != amountOfTurns - 1) continue;    //if it isn't the last shot, the player has finished his turn
+                    else extraShot = true;
                 }
-                secondPinsTouched = retrieveInt("Second shot of " + p.getName() + " : enter pins touched (must be a number)");
+                secondPinsTouched = retrieveInt("Turn " + turn + ", second shot of " + p.getName() + " : enter pins touched (must be a number)");
                 this.pinsMap.get(p)[turn][1] = secondPinsTouched;
-                playerScore.calculScore(this.pinsMap.get(p), 0);
+                playerScore.calculScore(this.pinsMap.get(p));
                 currentPlayerPoints = intArrayToIntegerArray(playerScore.getScoreTab());
+                if (turn == amountOfTurns - 1 && firstPinsTouched + secondPinsTouched == amountOfPins) {     //spare
+                    extraShot = true;
+                }
                 try{
                     p.setPoints(currentPlayerPoints);
                 }
                 catch(Exception e){
                     e.printStackTrace();
+                }
+                if (extraShot) {
+                    int thirdPinsTouched = retrieveInt("Turn " + turn + ", third shot of " + p.getName() + " : enter pins touched (must be a number)");
+                    this.pinsMap.get(p)[turn + 1][1] = thirdPinsTouched;
+                    playerScore.calculScore(this.pinsMap.get(p));
+                    currentPlayerPoints = intArrayToIntegerArray(playerScore.getScoreTab());
+                    try{
+                        p.setPoints(currentPlayerPoints);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
                 System.out.println("score end turn " + turn+1 + " : " + p.toString());
             }

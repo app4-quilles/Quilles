@@ -30,7 +30,7 @@ public class Player {
      */
     public Player(String name, int turns) {
         this.name = name;
-        this.points = new Integer[turns + 1][2];
+        this.points = new Integer[turns][2];
         this.turns = turns;
         for(int i = 0; i < turns; i++) {    //initializing the cells to 0
             this.points[i][0] = 0;
