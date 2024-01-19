@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import org.app4_quilles.ihm.cli.menu.Action;
 import org.app4_quilles.ihm.cli.menu.MenuException;
 import org.app4_quilles.ihm.cli.menu.MenuOption;
 
@@ -75,6 +76,10 @@ public class CLI {
         return response;
     }
 
+    public int getInputInt(String promptMsg, int min, int max, Action onInvalidInput) {
+        return 0;
+    }
+
     /**
      * Asks the user for an integer while the input is not valid
      * and return the result
@@ -117,6 +122,10 @@ public class CLI {
         return response;
     }
 
+    public String getInputString(String promptMsg, Function<String, Boolean> validityFunction, Action onInvalidInput) {
+        return "";
+    }
+
     /**
      * Ask the user for a string while the input is invalid
      * and return the result
@@ -156,6 +165,10 @@ public class CLI {
         System.out.println("================ [ => " + options.get(response).getTitle() + "] ================");
         options.get(response).call();
         return response;
+    }
+
+    public int showMenu(String title, ArrayList<MenuOption> options, Action onInvalidInput) {
+        return 0;
     }
 
     /**

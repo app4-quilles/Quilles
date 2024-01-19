@@ -172,20 +172,24 @@ public class CLITest {
     public void refusesTooLowInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("-1\n1\n"));
+            final CLI cli = new CLI(genUserInput("-1\n"));
 
             assertTrue("refuses too low user input", JUnitExtras.asyncTest((ok) -> {
-                cli.showMenu("title", new ArrayList<>(Arrays.asList(
-                    new MenuOption("a", () -> {
-                        ok.accept(false);
-                    }),
-                    new MenuOption("b", () -> {
-                        ok.accept(true);
-                    }),
-                    new MenuOption("c", () -> {
-                        ok.accept(false);
-                    })
-                )));
+                cli.showMenu(
+                    "title",
+                    new ArrayList<>(Arrays.asList(
+                        new MenuOption("a", () -> {
+                            ok.accept(false);
+                        }),
+                        new MenuOption("b", () -> {
+                            ok.accept(false);
+                        }),
+                        new MenuOption("c", () -> {
+                            ok.accept(false);
+                        })
+                    )),
+                    () -> {ok.accept(true);}
+                );
             }));
 
         } catch (MenuException e) {
@@ -198,20 +202,24 @@ public class CLITest {
     public void refusesTooHighUserInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("3\n1\n"));
+            final CLI cli = new CLI(genUserInput("3\n"));
 
             assertTrue("refuses too high user input", JUnitExtras.asyncTest((ok) -> {
-                cli.showMenu("title", new ArrayList<>(Arrays.asList(
-                    new MenuOption("a", () -> {
-                        ok.accept(false);
-                    }),
-                    new MenuOption("b", () -> {
-                        ok.accept(true);
-                    }),
-                    new MenuOption("c", () -> {
-                        ok.accept(false);
-                    })
-                )));
+                cli.showMenu(
+                    "title",
+                    new ArrayList<>(Arrays.asList(
+                        new MenuOption("a", () -> {
+                            ok.accept(false);
+                        }),
+                        new MenuOption("b", () -> {
+                            ok.accept(false);
+                        }),
+                        new MenuOption("c", () -> {
+                            ok.accept(false);
+                        })
+                    )),
+                    () -> {ok.accept(true);}
+                );
             }));
 
         } catch (MenuException e) {
@@ -274,11 +282,15 @@ public class CLITest {
     public void refusesInvalidStringInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("thisIsTooLongForTheInput\nThisIsOk"));
+            final CLI cli = new CLI(genUserInput("thisIsTooLongForTheInput\n"));
 
             assertTrue("refuses invalid string input", JUnitExtras.asyncTest((ok) -> {
-                String result = cli.getInputString("please give some input", ((text) -> text.length() < 10));
-                ok.accept(result.equals("ThisIsOk"));
+                String result = cli.getInputString(
+                    "please give some input",
+                    ((text) -> text.length() < 10),
+                    () -> {ok.accept(true);}
+                );
+                ok.accept(false);
             }));
 
         } catch (MenuException e) {
@@ -325,11 +337,14 @@ public class CLITest {
     public void refusesTooHighIntegerInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("15\n5\n"));
+            final CLI cli = new CLI(genUserInput("15\n"));
 
             assertTrue("refuses too high integer input", JUnitExtras.asyncTest((ok) -> {
-                Integer result = cli.getInputInt("please give some input", 0, 10);
-                ok.accept(result.equals(5));
+                Integer result = cli.getInputInt(
+                    "please give some input", 0, 10,
+                    () -> {ok.accept(true);}    
+                );
+                ok.accept(false);
             }));
 
         } catch (MenuException e) {
@@ -342,11 +357,14 @@ public class CLITest {
     public void refusesTooLowIntegerInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("-5\n5\n"));
+            final CLI cli = new CLI(genUserInput("-5\n"));
 
             assertTrue("refuses too low integer input", JUnitExtras.asyncTest((ok) -> {
-                Integer result = cli.getInputInt("please give some input", 0, 10);
-                ok.accept(result.equals(5));
+                Integer result = cli.getInputInt(
+                    "please give some input", 0, 10,
+                    () -> {ok.accept(true);}
+                );
+                ok.accept(false);
             }));
 
         } catch (MenuException e) {

@@ -1,7 +1,9 @@
 package org.app4_quilles.ihm.cli.menu;
 
 /**
- * Function to call when a menu option is selected.
+ * Callback function type to use in method signatures.
+ * It allows an argument as follows (lambdas):
+ * "() -> {code}" or "(() -> value)"
  */
 @FunctionalInterface
 public interface Action {
