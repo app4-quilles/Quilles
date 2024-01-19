@@ -14,20 +14,38 @@ import org.app4_quilles.ihm.cli.menu.MenuOption;
 public class CLI {
 
     public final Scanner scanner;
+    public boolean testMode;
 
     /**
      * Prepares a new CLI interface.
      * @param inputStream InputStream to use. Useful for mocking purposes. The provided scanner must **NOT** be closed.
-     * @throws Exception
+     * @param testMode if testing through JUnit, this should be true. In other words, if the input stream is not System.in, this should be true.
+     * @throws MenuException
      */
-    CLI(InputStream inputStream) throws MenuException {
+    CLI(InputStream inputStream, boolean testMode) throws MenuException {
         if (inputStream == null) throw new MenuException("InputStream must be specified.");
         this.scanner = new Scanner(inputStream);
+        this.testMode = testMode;
     }
 
-    CLI() throws MenuException {
-        this(System.in);
+    /**
+     * Prepares a new CLI interface.
+     * @param inputStream InputStream to use. Useful for mocking purposes. The provided scanner must **NOT** be closed.
+     * @throws MenuException
+     */
+    CLI(InputStream inputStream) throws MenuException {
+        this(inputStream, true);
     }
+
+    /**
+     * Prepares a new CLI interface.
+     * @throws MenuException
+     */
+    CLI() throws MenuException {
+        this(System.in, false);
+    }
+
+    public boolean getTestMode() {return testMode;}
 
     /**
      * Returns if the scanner can eat a string
@@ -44,6 +62,9 @@ public class CLI {
     /**
      * Asks the user for an integer while the input is not valid
      * and return the result
+     * 
+     * In test mode, only one attempt is allowed and -1 is returned on wrong input.
+
      * @param promptMsg display message
      * @param min min value, included
      * @param max max value, included
@@ -72,6 +93,7 @@ public class CLI {
             if (invalid) {
                 System.out.println("invalid input!");
                 onInvalidInput.action();
+                if (testMode) return -1;
             }
         }
 
@@ -89,7 +111,7 @@ public class CLI {
      * @return user's response
      */
     public int getInputInt(String promptMsg, int min, int max) {
-        return getInputInt(promptMsg, Integer.MIN_VALUE, Integer.MAX_VALUE, () -> {});
+        return getInputInt(promptMsg, min, max, () -> {});
     }
 
     /**
@@ -104,7 +126,10 @@ public class CLI {
 
     /**
      * Ask the user for a string while the input is invalid
-     * and return the result
+     * and return the result.
+     * 
+     * In test mode, only one attempt is allowed and "" is returned on wrong input.
+     * 
      * @param promptMsg display message
      * @param validityFunction function that returns if a string is a valid input
      * @param onInvalidInput callback when the user enters an invalid value
@@ -132,6 +157,7 @@ public class CLI {
             if (invalid) {
                 System.out.println("invalid input!");
                 onInvalidInput.action();
+                if (testMode) return "";
             }
         }
 
@@ -184,6 +210,7 @@ public class CLI {
 
         // input
         int response = getInputInt("-> action ("+minInput+" to "+maxInput+")", minInput, maxInput, onInvalidInput);
+        if (response == -1 && testMode) return -1; // in test mode, only one attempt is allowed and -1 is returned on invalid value.
 
         // action
         System.out.println("================ [ => " + options.get(response).getTitle() + "] ================");
@@ -228,7 +255,7 @@ public class CLI {
             System.out.println(cli.getInputString("string with at most 10 chars", ((str) -> str.length() < 10)));
             
             System.out.println(cli.getInputInt("int"));
-            System.out.println(cli.getInputInt("int between 0 and 5", 0, 5));
+            System.out.println(cli.getInputInt("int between 0 and 5", 0, 5, () -> {System.out.println("BAD");}));
             
             System.out.println(cli.showMenu("menu", new ArrayList<>(Arrays.asList(
                 new MenuOption("yes", () -> {System.out.println("yes");}),

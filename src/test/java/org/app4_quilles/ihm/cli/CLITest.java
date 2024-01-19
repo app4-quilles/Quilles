@@ -1,5 +1,6 @@
 package org.app4_quilles.ihm.cli;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -25,7 +26,8 @@ public class CLITest {
     @Test
     public void acceptSystemInput() {
         try {
-            CLI cli = new CLI(System.in);
+            CLI cli = new CLI(); // no parameter implies System.in
+            assertFalse(cli.getTestMode());
         } catch (MenuException e) {
             e.printStackTrace();
             fail("Did not accept system input.");
@@ -41,6 +43,7 @@ public class CLITest {
     public void acceptCustomInput() {
         try {
             CLI cli = new CLI(genUserInput(""));
+            assertTrue(cli.getTestMode());
         } catch (MenuException e) {
             e.printStackTrace();
             fail("Did not accept custom input.");
@@ -290,7 +293,8 @@ public class CLITest {
                     ((text) -> text.length() < 10),
                     () -> {ok.accept(true);}
                 );
-                ok.accept(false);
+                // no accept here so that the JVM give priority to the callback accept.
+                // if it is not called, the timeout makes the test fail anyway.
             }));
 
         } catch (MenuException e) {
@@ -344,7 +348,8 @@ public class CLITest {
                     "please give some input", 0, 10,
                     () -> {ok.accept(true);}    
                 );
-                ok.accept(false);
+                // no accept here so that the JVM give priority to the callback accept.
+                // if it is not called, the timeout makes the test fail anyway.
             }));
 
         } catch (MenuException e) {
@@ -364,7 +369,8 @@ public class CLITest {
                     "please give some input", 0, 10,
                     () -> {ok.accept(true);}
                 );
-                ok.accept(false);
+                // no accept here so that the JVM give priority to the callback accept.
+                // if it is not called, the timeout makes the test fail anyway.
             }));
 
         } catch (MenuException e) {
