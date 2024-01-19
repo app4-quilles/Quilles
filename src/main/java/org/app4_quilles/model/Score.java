@@ -48,7 +48,7 @@ public class Score {
 	        }
 	    }
 		numberOfPins = 10;
-		calculScore(pins);
+		CalculScore(pins, pins.length-1);
 	}
 	/**
 	 * Constructor with no default value
@@ -63,38 +63,60 @@ public class Score {
 	        }
 	    }
 		numberOfPins = nb;
-		calculScore(pins);
+		CalculScore(pins, pins.length-1);
 	}
 	/**
 	 * The function which calculate the values and save them in scoreTab
 	 * @param pins the tab with each pin fallen in shot 1 or shot 2 for each round         
 	 */
-	public void calculScore(int[][] pins) {
+	public void CalculScore(int[][] pins, int numberOfRound) {
 		//lastShot is the second shot a player get when they do a strike on their last round.
 		int total = 0;
-		for (int i = 0; i < pins.length-1; i++) {
-			
-			//calculating basic round score
-			int res = pins[i][0] + pins[i][1];
-			
-			//if there is a strike, and it's the last round
-	        if(pins[i][0] == numberOfPins && i == pins.length - 2) res += pins[i+1][0];
-	        
-			//if there is a strike, followed by another and that other strike is the last round
-	        else if(pins[i][0] == numberOfPins && pins[i + 1][0] == numberOfPins && i + 1 == pins.length - 2) res += pins[i+1][0] + pins[i+1][1];
-	        
-			//if there is a strike, followed by another
-	        else if(pins[i][0] == numberOfPins && pins[i + 1][0] == numberOfPins) res += pins[i+1][0] + pins[i+2][0];
-	        
-	        //if there is a strike, followed by anything
-	        else if(pins[i][0] == numberOfPins) res += pins[i + 1][0] + pins[i + 1][1];
-	        
-	        //if there is a spare
-	        else if(pins[i][0] + pins[i][1] == numberOfPins) res += pins[i + 1][0];
-	        
-	        scoreTab[i][0] = res;
-	        total += res;
-	        scoreTab[i][1] = total;
+		for (int i = 0; i < pins.length - 1; i++) {
+			if (pins.length == numberOfRound) {
+				//calculating basic round score
+				int res = pins[i][0] + pins[i][1];
+				
+				//if there is a strike, and it's the last round
+		        if(pins[i][0] == numberOfPins && i == pins.length - 2) res += pins[i+1][0];
+		        
+				//if there is a strike, followed by another and that other strike is the last round
+		        else if(pins[i][0] == numberOfPins && pins[i + 1][0] == numberOfPins && i + 2 == numberOfRound) res += pins[i+1][0] + pins[i+1][1];
+		        
+				//if there is a strike, followed by another
+		        else if(pins[i][0] == numberOfPins && pins[i + 1][0] == numberOfPins) res += pins[i+1][0] + pins[i+2][0];
+		        
+		        //if there is a strike, followed by anything
+		        else if(pins[i][0] == numberOfPins) res += pins[i + 1][0] + pins[i + 1][1];
+		        
+		        //if there is a spare
+		        else if(pins[i][0] + pins[i][1] == numberOfPins) res += pins[i + 1][0];
+
+		        scoreTab[i][0] = res;
+		        total += res;
+			    scoreTab[i][1] = total;
+			}
+			/* ---------- TOOOOO DOOOOOOO -----------------
+			else if (i == pins.length - 2) {				
+				//if there is a strike, and it's the last round
+		        if(pins[i][0] == numberOfPins && i == pins.length - 2) res += pins[i+1][0];
+		        
+				//if there is a strike, followed by another and that other strike is the last round
+		        else if(pins[i][0] == numberOfPins && pins[i + 1][0] == numberOfPins && i + 2 == numberOfRound) res += pins[i+1][0] + pins[i+1][1];
+		        
+				//if there is a strike, followed by another
+		        else if(pins[i][0] == numberOfPins && pins[i + 1][0] == numberOfPins) res += pins[i+1][0] + pins[i+2][0];
+		        
+		        //if there is a strike, followed by anything
+		        else if(pins[i][0] == numberOfPins) res += pins[i + 1][0] + pins[i + 1][1];
+		        
+		        //if there is a spare
+		        else if(pins[i][0] + pins[i][1] == numberOfPins) res += pins[i + 1][0];
+
+		        scoreTab[i][0] = res;
+		        total += res;
+			    scoreTab[i][1] = total;
+			}*/
 	    }
 	}
 }

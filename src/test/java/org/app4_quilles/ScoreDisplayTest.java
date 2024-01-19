@@ -15,7 +15,7 @@ public class ScoreDisplayTest {
 		playerPins[9][1] = numberOfPins;
 		int[][][] gameTab = new int[1][11][2];
 		gameTab[0] = playerPins;
-		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John"});
+		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John"}, 10);
 		assertEquals("AnyRoundStrike : name Okay", sd.getPlayers(0), "1 - John");
 		for (int i = 0; i < playerPins.length-2; i++) {
 			assertEquals("AnyRoundStrike : display Strike for "+ i, sd.getScores(0, i, 0), "X");
@@ -36,7 +36,7 @@ public class ScoreDisplayTest {
 		playerPins[10][0] = 5;
 		int[][][] gameTab = new int[1][11][2];
 		gameTab[0] = playerPins;
-		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John"});
+		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John"}, 10);
 		assertEquals("AnyRoundSpare : name Okay", sd.getPlayers(0), "1 - John");
 		for (int i = 0; i < playerPins.length-3; i++) {
 			assertEquals("AnyRoundSpare : display Spare for "+ i, sd.getScores(0, i, 0), "- /");
@@ -75,7 +75,7 @@ public class ScoreDisplayTest {
 		playerPins[10][0] = 2;
 		int[][][] gameTab = new int[1][11][2];
 		gameTab[0] = playerPins;
-		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John"});
+		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John"}, 10);
 		assertEquals("AnyRoundGutterAndSomePins : name Okay", sd.getPlayers(0), "1 - John");
 		assertEquals("AnyRoundGutterAndSomePins : display pins for 0", sd.getScores(0, 0, 0), "3 4");
 		assertEquals("AnyRoundGutterAndSomePins : display total for 0", sd.getScores(0, 0, 1), "7");
@@ -136,7 +136,7 @@ public class ScoreDisplayTest {
 		gameTab[0] = player1Pins;
 		gameTab[1] = player2Pins;
 		gameTab[2] = player3Pins;
-		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John","Johnny","Johnathan"});
+		ScoreDisplay sd = new ScoreDisplay(gameTab, new String[]{"John","Johnny","Johnathan"}, 4);
 		assertEquals("MultiplePlayers : name 0 Okay", sd.getPlayers(0), "1 - John");
 		assertEquals("MultiplePlayers : name 1 Okay", sd.getPlayers(1), "2 - Johnny");
 		assertEquals("MultiplePlayers : name 2 Okay", sd.getPlayers(2), "3 - Johnathan");

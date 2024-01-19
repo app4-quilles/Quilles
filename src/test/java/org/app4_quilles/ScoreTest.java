@@ -247,4 +247,35 @@ public class ScoreTest {
 		assertEquals("ModifiedParametersNormalGame : round 5 score", sc.getScoreTab()[4][0], 15);
 		assertEquals("ModifiedParametersNormalGame : round 5 total score", sc.getScoreTab()[4][1], 68);
 	}
+    @Test
+	public void ModifiedParametersStoppingHalfway() {
+		int[][] playerPins = new int[6][2];
+        int numberOfPins = 8;
+		for (int i = 0; i < playerPins.length; i++) {
+			playerPins[i][0] = 0;
+			playerPins[i][1] = 0;
+		}
+		playerPins[0][0] = 5;
+		playerPins[0][1] = 3;
+		playerPins[1][0] = 6;
+		playerPins[1][1] = 1;
+		playerPins[2][1] = numberOfPins;
+		playerPins[3][0] = numberOfPins;
+		playerPins[4][0] = numberOfPins;
+		playerPins[5][0] = 7;
+		Score sc = new Score(numberOfPins, playerPins);
+		sc.CalculScore(playerPins, 10);
+		assertEquals("ModifiedParametersNormalGame : round 1 score", sc.getScoreTab()[0][0], 14);
+		assertEquals("ModifiedParametersNormalGame : round 1 total score", sc.getScoreTab()[0][1], 14);
+		assertEquals("ModifiedParametersNormalGame : round 2 score", sc.getScoreTab()[1][0], 7);
+		assertEquals("ModifiedParametersNormalGame : round 2 total score", sc.getScoreTab()[1][1], 21);
+		assertEquals("ModifiedParametersNormalGame : round 3 score", sc.getScoreTab()[2][0], 16);
+		assertEquals("ModifiedParametersNormalGame : round 3 total score", sc.getScoreTab()[2][1], 37);
+		assertEquals("ModifiedParametersNormalGame : round 4 score", sc.getScoreTab()[3][0], 23);
+		assertEquals("ModifiedParametersNormalGame : round 4 total score", sc.getScoreTab()[3][1], 60);
+		assertEquals("ModifiedParametersNormalGame : round 5 score", sc.getScoreTab()[4][0], 0);
+		assertEquals("ModifiedParametersNormalGame : round 5 total score", sc.getScoreTab()[4][1], 0);
+		assertEquals("ModifiedParametersNormalGame : round 6 score", sc.getScoreTab()[5][0], 0);
+		assertEquals("ModifiedParametersNormalGame : round 6 total score", sc.getScoreTab()[5][1], 0);
+	}
 }

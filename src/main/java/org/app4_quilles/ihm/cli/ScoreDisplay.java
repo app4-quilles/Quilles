@@ -7,23 +7,24 @@ public class ScoreDisplay {
 	private String[][][] scoreDisplayScore;
 
 	public ScoreDisplay (){
-		this(new int[3][10][2], new String[]{"John","Johnny","Johnathan"});
+		this(new int[3][11][2], new String[]{"John","Johnny","Johnathan"}, 10);
 	}
 	
 	public ScoreDisplay (String[] players){
-		this(new int[players.length][10][2], players);
+		this(new int[players.length][11][2], players, 10);
 	}
 	
-	public ScoreDisplay (int [][][] pinTabs, String[] players){
+	public ScoreDisplay (int [][][] pinTabs, String[] players, int numberOfRound){
 		Score sc = new Score();
 		scoreDisplayScore = new String [pinTabs.length][pinTabs[0].length][pinTabs[0][0].length];
 		scoreDisplayPlayers = new String [players.length];
 		for (int i = 0; i < players.length; i ++) {
 			scoreDisplayPlayers[i] = i + 1 + " - " + players[i];
-			sc.calculScore(pinTabs[i]);
+			sc.CalculScore(pinTabs[i], numberOfRound);
 			for (int j = 0; j < pinTabs[0].length - 1; j ++) {
 				scoreDisplayScore[i][j][0] = affichageScoreRound(pinTabs[i], j);
-				scoreDisplayScore[i][j][1] = sc.getScoreTab()[j][1] + "";
+				if (sc.getScoreTab()[j][0] == 0 && j == numberOfRound - 1 && scoreDisplayScore[i][j][0] != "- -") scoreDisplayScore[i][j][1] = "";
+				else scoreDisplayScore[i][j][1] = sc.getScoreTab()[j][1] + "";
 			}
 		}
 	}
