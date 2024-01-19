@@ -6,7 +6,7 @@ import org.junit.Test;
 public class ScoreTest {
 
     @Test
-	public void scoreVerificationStrikeOnly() {
+	public void StrikeOnly() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -21,7 +21,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationStrikeOnlyLastShotIsZero() {
+	public void StrikeOnlyLastShotIsZero() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length-1; i++) {
@@ -39,7 +39,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationStrikeOnlyBeforeLastShotIsZero() {
+	public void StrikeOnlyBeforeLastShotIsZero() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -59,7 +59,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationEveryShotIsZero() {
+	public void EveryShotIsZero() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -74,7 +74,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationEveryShotIsZeroOneSpare() {
+	public void EveryShotIsZeroOneSpare() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -93,7 +93,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationEveryShotIsZeroTwoSpares() {
+	public void EveryShotIsZeroTwoSpares() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -116,7 +116,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationBadGame() {
+	public void BadGame() {
         //random game with bad results
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
@@ -156,7 +156,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationGoodGame() {
+	public void GoodGame() {
         //random game with good results
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
@@ -205,7 +205,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationModifiedParametersZeros() {
+	public void ModifiedParametersZeros() {
 		int[][] playerPins = new int[8][2];
         int numberOfPins = 5;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -220,7 +220,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationModifiedParametersNormalGame() {
+	public void ModifiedParametersNormalGame() {
 		int[][] playerPins = new int[6][2];
         int numberOfPins = 8;
 		for (int i = 0; i < playerPins.length; i++) {
