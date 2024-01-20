@@ -31,8 +31,8 @@ public class Player {
     public Player(String name, int turns) {
         this.name = name;
         this.points = new Integer[turns + 1][2];
-        this.turns = turns;
-        for(int i = 0; i < turns; i++) {    //initializing the cells to 0
+        this.turns = Math.max(turns, 1);        //the game needs to have at least one turn
+        for(int i = 0; i < turns + 1; i++) {    //initializing the cells to 0
             this.points[i][0] = 0;
             this.points[i][1] = 0;
         }
@@ -83,7 +83,7 @@ public class Player {
      * @param value : The value ton be inserted.
      */
     public void setPoint(int round, int layer, int value) throws Exception {
-        if (layer < 2 && round < turns) {
+        if (layer >= 0 && round >= 0 && layer <= 2 && round < turns + 1) {
             this.getPoints()[round][layer] = value;
         } else {
             throw new Exception("Insertion error : Incorrect coordinates.");

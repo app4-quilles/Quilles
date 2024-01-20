@@ -1,12 +1,14 @@
 package org.app4_quilles;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.app4_quilles.model.Score;
 import org.junit.Test;
 
 public class ScoreTest {
 
     @Test
-	public void scoreVerificationStrikeOnly() {
+	public void StrikeOnly() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -21,7 +23,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationStrikeOnlyLastShotIsZero() {
+	public void StrikeOnlyLastShotIsZero() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length-1; i++) {
@@ -39,7 +41,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationStrikeOnlyBeforeLastShotIsZero() {
+	public void StrikeOnlyBeforeLastShotIsZero() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -59,7 +61,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationEveryShotIsZero() {
+	public void EveryShotIsZero() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -74,7 +76,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationEveryShotIsZeroOneSpare() {
+	public void EveryShotIsZeroOneSpare() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -93,7 +95,7 @@ public class ScoreTest {
     }
 
     @Test
-	public void scoreVerificationEveryShotIsZeroTwoSpares() {
+	public void EveryShotIsZeroTwoSpares() {
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -116,7 +118,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationBadGame() {
+	public void BadGame() {
         //random game with bad results
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
@@ -156,7 +158,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationGoodGame() {
+	public void GoodGame() {
         //random game with good results
 		int[][] playerPins = new int[11][2];
         int numberOfPins = 10;
@@ -205,7 +207,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationModifiedParametersZeros() {
+	public void ModifiedParametersZeros() {
 		int[][] playerPins = new int[8][2];
         int numberOfPins = 5;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -220,7 +222,7 @@ public class ScoreTest {
 	}
 
     @Test
-	public void scoreVerificationModifiedParametersNormalGame() {
+	public void ModifiedParametersNormalGame() {
 		int[][] playerPins = new int[6][2];
         int numberOfPins = 8;
 		for (int i = 0; i < playerPins.length; i++) {
@@ -246,5 +248,35 @@ public class ScoreTest {
 		assertEquals("ModifiedParametersNormalGame : round 4 total score", sc.getScoreTab()[3][1], 53);
 		assertEquals("ModifiedParametersNormalGame : round 5 score", sc.getScoreTab()[4][0], 15);
 		assertEquals("ModifiedParametersNormalGame : round 5 total score", sc.getScoreTab()[4][1], 68);
+	}
+    @Test
+	public void ModifiedParametersStoppingHalfway() {
+		int[][] playerPins = new int[6][2];
+        int numberOfPins = 8;
+		for (int i = 0; i < playerPins.length; i++) {
+			playerPins[i][0] = 0;
+			playerPins[i][1] = 0;
+		}
+		playerPins[0][0] = 5;
+		playerPins[0][1] = 3;
+		playerPins[1][0] = 6;
+		playerPins[1][1] = 1;
+		playerPins[2][1] = numberOfPins;
+		playerPins[3][0] = numberOfPins;
+		playerPins[4][0] = numberOfPins;
+		playerPins[5][0] = 7;
+		Score sc = new Score(numberOfPins, playerPins);
+		sc.CalculScore(playerPins, 10);
+		assertEquals("ModifiedParametersNormalGame : round 1 score", sc.getScoreTab()[0][0], 14);
+		assertEquals("ModifiedParametersNormalGame : round 1 total score", sc.getScoreTab()[0][1], 14);
+		assertEquals("ModifiedParametersNormalGame : round 2 score", sc.getScoreTab()[1][0], 7);
+		assertEquals("ModifiedParametersNormalGame : round 2 total score", sc.getScoreTab()[1][1], 21);
+		assertEquals("ModifiedParametersNormalGame : round 3 score", sc.getScoreTab()[2][0], 16);
+		assertEquals("ModifiedParametersNormalGame : round 3 total score", sc.getScoreTab()[2][1], 37);
+		assertEquals("ModifiedParametersNormalGame : round 4 score", sc.getScoreTab()[3][0], 23);
+		assertEquals("ModifiedParametersNormalGame : round 4 total score", sc.getScoreTab()[3][1], 60);
+		assertEquals("ModifiedParametersNormalGame : round 5 score", sc.getScoreTab()[4][0], 15);
+		assertEquals("ModifiedParametersNormalGame : round 5 total score", sc.getScoreTab()[4][1], 75);
+		assertTrue(sc.getScoreTab().length == 5);
 	}
 }
