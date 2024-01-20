@@ -63,7 +63,15 @@ public class GameTest {
         compareArray[0][1] = 0;
         compareArray[1][0] = 0;
         compareArray[1][1] = 0;
-        Assert.assertEquals("getNewArray should return an empty array", compareArray, getNewArray(2));
+
+        int[][] newArray = getNewArray(2);
+        Assert.assertEquals("same length", compareArray.length, newArray.length);
+        Assert.assertEquals("same length inside", compareArray[0].length, newArray[0].length);
+        for (int i = 0; i < compareArray.length; i++) {
+            for (int j = 0; j < compareArray[i].length; j++) {
+                Assert.assertEquals("same value for " + i + "," + j, compareArray[i][j], newArray[i][j]);
+            }
+        }
     }
 
     @Test
@@ -80,7 +88,15 @@ public class GameTest {
                 compareIntegerArray[x][y] = 0;
             }
         }
-        Assert.assertEquals("compareIntArray should become an integerArray", compareIntegerArray, intArrayToIntegerArray(compareIntArray));
+
+        Integer[][] newArray = intArrayToIntegerArray(compareIntArray);
+        Assert.assertEquals("same length", compareIntArray.length, newArray.length);
+        Assert.assertEquals("same length inside", compareIntArray[0].length, newArray[0].length);
+        for (int i = 0; i < compareIntegerArray.length; i++) {
+            for (int j = 0; j < compareIntegerArray[i].length; j++) {
+                Assert.assertEquals("same value for " + i + "," + j, compareIntegerArray[i][j], newArray[i][j]);
+            }
+        }
     }
 
     @Test
