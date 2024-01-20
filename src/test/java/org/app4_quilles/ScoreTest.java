@@ -1,5 +1,7 @@
 package org.app4_quilles;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.app4_quilles.model.Score;
 import org.junit.Test;
 
@@ -273,9 +275,8 @@ public class ScoreTest {
 		assertEquals("ModifiedParametersNormalGame : round 3 total score", sc.getScoreTab()[2][1], 37);
 		assertEquals("ModifiedParametersNormalGame : round 4 score", sc.getScoreTab()[3][0], 23);
 		assertEquals("ModifiedParametersNormalGame : round 4 total score", sc.getScoreTab()[3][1], 60);
-		assertEquals("ModifiedParametersNormalGame : round 5 score", sc.getScoreTab()[4][0], 0);
-		assertEquals("ModifiedParametersNormalGame : round 5 total score", sc.getScoreTab()[4][1], 0);
-		assertEquals("ModifiedParametersNormalGame : round 6 score", sc.getScoreTab()[5][0], 0);
-		assertEquals("ModifiedParametersNormalGame : round 6 total score", sc.getScoreTab()[5][1], 0);
+		assertEquals("ModifiedParametersNormalGame : round 5 score", sc.getScoreTab()[4][0], 15);
+		assertEquals("ModifiedParametersNormalGame : round 5 total score", sc.getScoreTab()[4][1], 75);
+		assertTrue(sc.getScoreTab().length == 5);
 	}
 }
