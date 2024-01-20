@@ -2,7 +2,6 @@ package org.app4_quilles.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import org.app4_quilles.ihm.cli.CLI;
 
@@ -160,7 +159,16 @@ public class Game {
 
         //Asking user to enter players names. Those are turned into Player instances and stored in this.listPlayers
         for (int i = 0; i <  this.amountOfPlayers; i++) {
-            String newPlayerName = cli.getInputString("Enter new player");
+            String newPlayerName = cli.getInputString("Enter new player", (str) -> {
+                // string validation
+                boolean exists = false;
+                
+                for (Player p : this.listPlayers) {
+                    if (p.getName().equals(str)) exists = true;
+                }
+
+                return !exists;
+            });
             this.addPlayer(newPlayerName);
         }
 
