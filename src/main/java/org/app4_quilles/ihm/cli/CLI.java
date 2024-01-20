@@ -19,12 +19,12 @@ public class CLI {
      * @param inputStream InputStream to use. Useful for mocking purposes. The provided scanner must **NOT** be closed.
      * @throws Exception
      */
-    CLI(InputStream inputStream) throws MenuException {
+    public CLI(InputStream inputStream) throws MenuException {
         if (inputStream == null) throw new MenuException("InputStream must be specified.");
         this.scanner = new Scanner(inputStream);
     }
 
-    CLI() throws MenuException {
+    public CLI() throws MenuException {
         this(System.in);
     }
 

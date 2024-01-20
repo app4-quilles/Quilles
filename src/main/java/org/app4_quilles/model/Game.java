@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import org.app4_quilles.ihm.cli.CLI;
+
 public class Game {
     //Attributes
     private int amountOfPins;
@@ -73,18 +75,6 @@ public class Game {
 
 
 
-    //Scanner for standard input file (a temp method that will be replaced by Charly's one
-    public static String getInputString(String promptMsg) { //TODO test by sending text through System.in (ask Charly Schmidt at next standup)
-        String response = null;
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(promptMsg + ": ");
-
-        response = scanner.nextLine();
-
-        return response;
-    }
-
-
 
     //Methods
     public void addPlayer(String name){
@@ -110,15 +100,6 @@ public class Game {
             }
         }
         return res;
-    }
-
-    public static int retrieveInt(String s){
-        String amount = "";
-        while(! isInt(amount)){
-            System.out.print(s);
-            amount = getInputString("");
-        }
-        return Integer.valueOf(amount);
     }
 
     //Useful for debugging  -> no tests needed as it is never used in final build
@@ -166,25 +147,27 @@ public class Game {
         //Game setup
         System.out.println("Game setup.");
 
-        this.amountOfTurns = retrieveInt("Enter amount of turns (must be a number)");
+        CLI cli = new CLI();
+
+        this.amountOfTurns = cli.getInputInt("Enter amount of turns (must be a number)", 1, Integer.MAX_VALUE);
         System.out.println("Amount of turns : "+this.amountOfTurns);
 
-        this.amountOfPins = retrieveInt("Enter amount of pins (must be a number)");
+        this.amountOfPins = cli.getInputInt("Enter amount of pins (must be a number)", 1, Integer.MAX_VALUE);
         System.out.println("Amount of pins : "+this.amountOfPins);
 
-        this.amountOfPlayers = retrieveInt("Enter amount of players (must be a number)");
+        this.amountOfPlayers = cli.getInputInt("Enter amount of players (must be a number)", 1, Integer.MAX_VALUE);
         System.out.println("Amount of players : "+this.amountOfPlayers);
 
         //Asking user to enter players names. Those are turned into Player instances and stored in this.listPlayers
         for (int i = 0; i <  this.amountOfPlayers; i++) {
-            String newPlayerName = this.getInputString("Enter new player ");
+            String newPlayerName = cli.getInputString("Enter new player");
             this.addPlayer(newPlayerName);
         }
 
 
         //Initializing score calculator for each player
         for (Player p : this.listPlayers) {
-            Score sc = new Score(this.amountOfPins, getNewArray(this.amountOfTurns), 0);
+            Score sc = new Score(this.amountOfPins, getNewArray(this.amountOfTurns));
             this.scores.put(p, sc);
 
             this.pinsMap.put(p, getNewArray(this.amountOfTurns));
@@ -203,9 +186,9 @@ public class Game {
                 Score playerScore = this.scores.get(p);
 
 
-                firstPinsTouched = retrieveInt("First shot of " + p.getName() + " : enter pins touched (must be a number)");
+                firstPinsTouched = cli.getInputInt("First shot of " + p.getName() + " : enter pins touched (must be a number)", 0, this.amountOfPins);
                 this.pinsMap.get(p)[turn][0] = firstPinsTouched;
-                playerScore.calculScore(this.pinsMap.get(p), 0);
+                playerScore.CalculScore(this.pinsMap.get(p), this.amountOfTurns);
                 //stringIntArray(playerScore.getScoreTab());//debug
                 currentPlayerPoints = intArrayToIntegerArray(playerScore.getScoreTab());
                 //stringIntegerArray(currentPlayerPoints);
@@ -225,9 +208,9 @@ public class Game {
                     System.out.println("score end turn " + turn+1 + " : " + p.toString());
                     continue;
                 }
-                secondPinsTouched = retrieveInt("Second shot of " + p.getName() + " : enter pins touched (must be a number)");
+                secondPinsTouched = cli.getInputInt("Second shot of " + p.getName() + " : enter pins touched (must be a number)", 0, this.amountOfPins);
                 this.pinsMap.get(p)[turn][1] = secondPinsTouched;
-                playerScore.calculScore(this.pinsMap.get(p), 0);
+                playerScore.CalculScore(this.pinsMap.get(p), this.amountOfTurns);
                 currentPlayerPoints = intArrayToIntegerArray(playerScore.getScoreTab());
                 try{
                     p.setPoints(currentPlayerPoints);
