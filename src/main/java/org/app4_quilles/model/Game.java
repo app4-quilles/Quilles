@@ -244,7 +244,6 @@ public class Game {
 
         // find winner
         ArrayList<Player> winners = new ArrayList<>();
-        winners.add(this.listPlayers.get(0));
 
         for (Player p : this.listPlayers) {
             
@@ -260,7 +259,7 @@ public class Game {
             }
 
             // compare with the winner
-            if (p.getPoint(this.amountOfTurns - 1, 1) > winners.get(0).getPoint(this.amountOfTurns - 1, 1)) { 
+            if (winners.size() == 0 || p.getPoint(this.amountOfTurns - 1, 1) > winners.get(0).getPoint(this.amountOfTurns - 1, 1)) { 
                 winners = new ArrayList<>();
                 winners.add(p);
             } else if (p.getPoint(this.amountOfTurns - 1, 1) == winners.get(0).getPoint(this.amountOfTurns - 1, 1)) {
