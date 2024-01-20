@@ -1,5 +1,6 @@
 package org.app4_quilles.junit;
 
+import java.io.ByteArrayInputStream;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -50,5 +51,10 @@ public class JUnitExtras {
             e.printStackTrace();
             return false; // thread interrupted / app crash: not OK
         }
+    }
+
+    public static ByteArrayInputStream genUserInput(String input) {
+        // how to simulate user input: https://stackoverflow.com/a/6416179
+        return new ByteArrayInputStream(input.getBytes());
     }
 }

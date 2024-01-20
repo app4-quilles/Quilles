@@ -1,5 +1,6 @@
 package org.app4_quilles.model;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,9 +16,14 @@ public class Game {
     private ArrayList<Player> listPlayers;
     private HashMap<Player, Score> scores;
     private HashMap<Player, int[][]> pinsMap; //contains the history of touched pins
+    private CLI cli;
 
     //Constructors
-    public Game(){
+
+    /**
+     * @param inputStream CLI input stream for testing purposes
+     */
+    public Game(InputStream inputStream){
         this.started = false;
         this.amountOfTurns = 10;
         this.amountOfPins = 10;
@@ -25,6 +31,11 @@ public class Game {
         this.listPlayers = new ArrayList<>();
         this.scores = new HashMap<Player, Score>();
         this.pinsMap = new HashMap<Player, int[][]>();
+        this.cli = new CLI(inputStream);
+    }
+
+    public Game() {
+        this(System.in);
     }
 
     //Getters

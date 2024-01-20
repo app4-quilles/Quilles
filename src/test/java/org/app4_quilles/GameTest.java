@@ -75,10 +75,6 @@ public class GameTest {
     }
 
     @Test
-    public void testRetrieveInt() { //TODO find a way to send text through System.in --> ask Charly Schmidt at next standup (19/01/2024)
-    }
-
-    @Test
     public void testIntArrayToIntegerArray() {
         int[][] compareIntArray = new int[2][2];
         Integer[][] compareIntegerArray = new Integer[2][2];
@@ -100,7 +96,7 @@ public class GameTest {
     }
 
     @Test
-    public void testPlay() { //TODO find a way to send text through System.in --> ask Charly Schmidt at next standup (19/01/2024)
+    public void testPlay() {
     }
 
 }
