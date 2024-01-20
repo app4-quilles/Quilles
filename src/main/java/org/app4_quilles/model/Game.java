@@ -226,13 +226,15 @@ public class Game {
                 }
 
                 // second shot
-                secondPinsTouched = cli.getInputInt("Second shot of " + p.getName() + " : enter pins touched (must be a number)", 0, this.amountOfPins);
+                int maxPins = (firstPinsTouched == this.amountOfPins)? this.amountOfPins : this.amountOfPins - firstPinsTouched;
+                secondPinsTouched = cli.getInputInt("Second shot of " + p.getName() + " : enter pins touched (must be a number)", 0, maxPins);
                 this.pinsMap.get(p)[turn][1] = secondPinsTouched;
 
                 // third shot on last round with strike or spare
                 int totalPins = firstPinsTouched + secondPinsTouched;
                 if ((firstPinsTouched == this.amountOfPins || totalPins == this.amountOfPins) && turn == this.amountOfTurns-1) {
-                    int thirdPinsTouched = cli.getInputInt("Third shot of " + p.getName() + " : enter pins touched (must be a number)", 0, this.amountOfPins);
+                    maxPins = (secondPinsTouched == this.amountOfPins || totalPins == this.amountOfPins)? this.amountOfPins : this.amountOfPins - secondPinsTouched;
+                    int thirdPinsTouched = cli.getInputInt("Third shot of " + p.getName() + " : enter pins touched (must be a number)", 0, maxPins);
                     this.pinsMap.get(p)[turn+1][0] = thirdPinsTouched;
                 }
 
