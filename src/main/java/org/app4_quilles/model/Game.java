@@ -175,7 +175,7 @@ public class Game {
         //Game setup
         System.out.println("Game setup.");
 
-        CLI cli = new CLI();
+        CLI cli = this.cli;
 
         this.amountOfTurns = cli.getInputInt("Enter amount of turns (must be a number)", 1, Integer.MAX_VALUE);
         System.out.println("Amount of turns : "+this.amountOfTurns);
