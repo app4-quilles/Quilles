@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.app4_quilles.ihm.cli.CLI;
+import org.app4_quilles.ihm.cli.ScoreDisplay;
 
 public class Game {
     //Attributes
@@ -142,6 +143,22 @@ public class Game {
         }
     }
 
+    /**
+     * show the scoreboard in the command line interface
+     */
+    private void printScore() {
+        String[] players = new String[this.listPlayers.size()];
+        int[][][] scores = new int[this.listPlayers.size()][this.amountOfTurns + 1][2];
+
+        for (int i = 0; i < this.listPlayers.size(); i++) {
+            players[i] = this.listPlayers.get(i).getName();
+            scores[i] = this.integerArrayToIntArray(this.listPlayers.get(i).getPoints());
+        }
+
+        ScoreDisplay scoreDisplay = new ScoreDisplay(scores, players, this.amountOfTurns);
+        scoreDisplay.Display();
+    }
+
     public void play(){
         //Game setup
         System.out.println("Game setup.");
@@ -187,6 +204,8 @@ public class Game {
         int secondPinsTouched = 0;
         for (int turn = 0; turn <  this.amountOfTurns; turn++) {
             for (Player p : this.listPlayers) {
+                this.printScore();
+
                 System.out.println("score beginning turn " + turn+1 + " : " + p.toString());
                 firstPinsTouched = 0;
                 secondPinsTouched = 0;
