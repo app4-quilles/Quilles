@@ -248,10 +248,4 @@ public class Game {
         }
         System.out.println("The winner is " + winner.getName() + "with " + winner.getPoint(this.amountOfTurns - 1, 1) + " points.");
     }
-
-
-    public static void main(String[] args) {
-        Game gameTest1 = new Game();
-        gameTest1.play();
-    }
 }
