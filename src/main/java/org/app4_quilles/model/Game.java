@@ -24,7 +24,6 @@ public class Game {
      * @param inputStream CLI input stream for testing purposes
      */
     public Game(InputStream inputStream){
-        this.started = false;
         this.amountOfTurns = 10;
         this.amountOfPins = 10;
         this.amountOfPlayers = 0;
@@ -47,10 +46,6 @@ public class Game {
         return amountOfTurns;
     }
 
-    public boolean getStarted() {
-        return started;
-    }
-
     public int getAmountOfPlayers() {
         return amountOfPlayers;
     }
@@ -66,24 +61,6 @@ public class Game {
     public HashMap<Player, int[][]> getPinsMap() {
         return pinsMap;
     }
-
-    //Setters
-    public void setAmountOfPins(int amountOfPins) {
-        this.amountOfPins = amountOfPins;
-    }
-
-    public void setAmountOfTurns(int amountOfTurns) {
-        this.amountOfTurns = amountOfTurns;
-    }
-
-    public void setStarted(boolean bool_start) {
-        this.started = bool_start;
-    }
-
-    public void setAmountOfPlayers(int amountOfPlayers) {
-        this.amountOfPlayers = amountOfPlayers;
-    }
-
 
 
 

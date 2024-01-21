@@ -18,7 +18,6 @@ public class GameTest {
     @Test
     public void testConstructor() {
         Game gameTest = new Game();
-        assertFalse("started boolean should be false", gameTest.getStarted());
         Assert.assertEquals("amount of turns should be 10", 10, gameTest.getAmountOfTurns());
         Assert.assertEquals("amount of pins should be 10", 10, gameTest.getAmountOfPins());
         Assert.assertEquals("amount of players should be 0", 0, gameTest.getAmountOfPlayers());
@@ -28,22 +27,8 @@ public class GameTest {
     }
 
     @Test
-    public void testSetters() {
-        Game gameTest = new Game();
-        gameTest.setStarted(true);
-        assertTrue("started boolean should be true", gameTest.getStarted());
-        gameTest.setAmountOfTurns(3);
-        Assert.assertEquals("amount of turns should be 3", 3, gameTest.getAmountOfTurns());
-        gameTest.setAmountOfPins(4);
-        Assert.assertEquals("amount of pins should be 4", 4, gameTest.getAmountOfPins());
-        gameTest.setAmountOfPlayers(5);
-        Assert.assertEquals("amount of players should be 5", 5, gameTest.getAmountOfPlayers());
-    }
-
-    @Test
     public void testAddPlayer() {
         Game gameTest = new Game();
-        gameTest.setAmountOfTurns(10);
         gameTest.addPlayer("testPlayer");
         Assert.assertEquals("list size should not be 0", 1, gameTest.getListPlayers().size());
         Player testPlayer = gameTest.getListPlayers().get(0);
