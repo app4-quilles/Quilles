@@ -1,6 +1,11 @@
 # Quilles
 Bowling points counter
+
 ## Groupe : *BULTEAU Arnaud, HU Alexis, LE BOT Maxime, PROQUEZ Olivier, SCHMIDT Charly*
+
+## Releases
+
+https://github.com/app4-quilles/Quilles/releases
 
 ---
 
@@ -16,7 +21,7 @@ To excecute the file jar, enter the command in a terminal :
 > java -jar [name of the jar file]
 
 ## Features
-**(Work in Progress)**
+
 Calculates scores of each players in the game.
 1. Start a new game
 2. Register players
