@@ -22,7 +22,7 @@ public class Score {
 	/**
 	 * @return the scores calculated
 	 */
-	public int[][] getScoreTab(){return scoreTab;}
+	public int[][] getScoreTab(){return scoreTab.clone();}
 	
 	/**
 	 * The default constructor, with a 10 round game, each shot being a zero, and 10 pins used.

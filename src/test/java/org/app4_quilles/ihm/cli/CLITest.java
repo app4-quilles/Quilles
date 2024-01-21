@@ -4,7 +4,6 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,15 +31,10 @@ public class CLITest {
         }
     }
 
-    private ByteArrayInputStream genUserInput(String input) {
-        // how to simulate user input: https://stackoverflow.com/a/6416179
-        return new ByteArrayInputStream(input.getBytes());
-    }
-
     @Test
     public void acceptCustomInput() {
         try {
-            CLI cli = new CLI(genUserInput(""));
+            CLI cli = new CLI(JUnitExtras.genUserInput(""));
         } catch (MenuException e) {
             e.printStackTrace();
             fail("Did not accept custom input.");
@@ -50,7 +44,7 @@ public class CLITest {
     @Test
     public void refusesEmptyMenu() {
         try {
-            final CLI cli = new CLI(genUserInput("\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("\n"));
 
             assertThrows("Refuses empty menu", MenuException.class, () -> {
                 cli.showMenu("title", new ArrayList<>());
@@ -65,7 +59,7 @@ public class CLITest {
     @Test
     public void acceptSingleItemMenu() {
         try {
-            final CLI cli = new CLI(genUserInput("0\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("0\n"));
 
             cli.showMenu("title", new ArrayList<>(Arrays.asList(
                 new MenuOption("title")
@@ -80,7 +74,7 @@ public class CLITest {
     @Test
     public void acceptMultipleItemsMenu() {
         try {
-            final CLI cli = new CLI(genUserInput("0\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("0\n"));
 
             cli.showMenu("title", new ArrayList<>(Arrays.asList(
                 new MenuOption("a"),
@@ -96,7 +90,7 @@ public class CLITest {
     @Test(timeout = 500)
     public void acceptsFirstUserInput() {
         try {
-            final CLI cli = new CLI(genUserInput("0\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("0\n"));
 
             assertTrue("accepts the first possible user input", JUnitExtras.asyncTest((ok) -> {
                 cli.showMenu("title", new ArrayList<>(Arrays.asList(
@@ -121,7 +115,7 @@ public class CLITest {
     @Test(timeout = 500)
     public void acceptsMiddleUserInput() {
         try {
-            final CLI cli = new CLI(genUserInput("1\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("1\n"));
 
             assertTrue("accepts a user input from somewhere in the middle of the list", JUnitExtras.asyncTest((ok) -> {
                 cli.showMenu("title", new ArrayList<>(Arrays.asList(
@@ -146,7 +140,7 @@ public class CLITest {
     @Test(timeout = 500)
     public void acceptsLastUserInput() {
         try {
-            final CLI cli = new CLI(genUserInput("2\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("2\n"));
 
             assertTrue("accepts the last possible user input", JUnitExtras.asyncTest((ok) -> {
                 cli.showMenu("title", new ArrayList<>(Arrays.asList(
@@ -172,7 +166,7 @@ public class CLITest {
     public void refusesTooLowInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("-1\n1\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("-1\n1\n"));
 
             assertTrue("refuses too low user input", JUnitExtras.asyncTest((ok) -> {
                 cli.showMenu("title", new ArrayList<>(Arrays.asList(
@@ -198,7 +192,7 @@ public class CLITest {
     public void refusesTooHighUserInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("3\n1\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("3\n1\n"));
 
             assertTrue("refuses too high user input", JUnitExtras.asyncTest((ok) -> {
                 cli.showMenu("title", new ArrayList<>(Arrays.asList(
@@ -223,7 +217,7 @@ public class CLITest {
     @Test(timeout = 500)
     public void pressEnterToConfirmWorksOnEnter() {
         try {
-            final CLI cli = new CLI(genUserInput("\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("\n"));
 
             assertTrue("press enter to confirm works on enter", JUnitExtras.asyncTest((ok) -> {
                 cli.pressEnterToConfirm();
@@ -240,7 +234,7 @@ public class CLITest {
     public void acceptsStringInput() {
         String test = "text";
         try {
-            final CLI cli = new CLI(genUserInput(test));
+            final CLI cli = new CLI(JUnitExtras.genUserInput(test));
 
             assertTrue("accepts string input", JUnitExtras.asyncTest((ok) -> {
                 String result = cli.getInputString("please give some input");
@@ -257,7 +251,7 @@ public class CLITest {
     public void acceptsConditionalStringInput() {
         String test = "ok";
         try {
-            final CLI cli = new CLI(genUserInput(test));
+            final CLI cli = new CLI(JUnitExtras.genUserInput(test));
 
             assertTrue("accepts conditional string input", JUnitExtras.asyncTest((ok) -> {
                 String result = cli.getInputString("please give some input", ((text) -> text.length() < 10));
@@ -274,7 +268,7 @@ public class CLITest {
     public void refusesInvalidStringInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("thisIsTooLongForTheInput\nThisIsOk"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("thisIsTooLongForTheInput\nThisIsOk"));
 
             assertTrue("refuses invalid string input", JUnitExtras.asyncTest((ok) -> {
                 String result = cli.getInputString("please give some input", ((text) -> text.length() < 10));
@@ -291,7 +285,7 @@ public class CLITest {
     public void acceptsIntInput() {
         Integer test = 5;
         try {
-            final CLI cli = new CLI(genUserInput(test.toString() + "\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput(test.toString() + "\n"));
 
             assertTrue("accepts integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input");
@@ -308,7 +302,7 @@ public class CLITest {
     public void acceptsConditionalIntInput() {
         Integer test = 5;
         try {
-            final CLI cli = new CLI(genUserInput(test.toString() + "\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput(test.toString() + "\n"));
 
             assertTrue("accepts conditional integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input", 0, 10);
@@ -325,7 +319,7 @@ public class CLITest {
     public void refusesTooHighIntegerInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("15\n5\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("15\n5\n"));
 
             assertTrue("refuses too high integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input", 0, 10);
@@ -342,7 +336,7 @@ public class CLITest {
     public void refusesTooLowIntegerInput() {
         try {
             //doesn't throw, so a valid option is necessary to end the test
-            final CLI cli = new CLI(genUserInput("-5\n5\n"));
+            final CLI cli = new CLI(JUnitExtras.genUserInput("-5\n5\n"));
 
             assertTrue("refuses too low integer input", JUnitExtras.asyncTest((ok) -> {
                 Integer result = cli.getInputInt("please give some input", 0, 10);
