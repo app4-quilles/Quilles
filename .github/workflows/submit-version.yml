@@ -28,7 +28,7 @@ jobs:
         # Artifact name
         name: jar-artifact # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: target/make/*.jar
+        path: target/*.jar
         # The desired behavior if no files are found using the provided path.
         # Available Options:
         #warn: Output a warning but do not fail the action
@@ -79,7 +79,7 @@ jobs:
           #prerelease: # optional
           # Newline-delimited list of path globs for asset files to upload
           files: | # optional
-            jar-artifact/*.zip
+            jar-artifact/*.jar
           # Fails if any of the `files` globs match nothing. Defaults to false
           #fail_on_unmatched_files: # optional
           # Repository to make releases against, in <owner>/<repo> format
